@@ -157,7 +157,7 @@ namespace RemoteTech
 
             var satellite = RTCore.Instance.Satellites[FlightGlobals.ActiveVessel];
             var source = satellite as ISatellite;
-            NetworkRoute<ISatellite> connection;
+            NetworkRoute<ISatellite> connection = null;
 
             // If there are no connections, or an infinite delay connection, examine the LastConnection
             // other wise use the currently shortest connection
@@ -182,7 +182,7 @@ namespace RemoteTech
             GUILayout.Label("Target",   mTargetTextStyle, GUILayout.Width(targetWidth));
             GUILayout.EndHorizontal();
 
-            if (connection != null && connection.Links.Count > 0)
+            if (connection != null && connection.Links != null && connection.Links.Count > 0)
             {
                 foreach (var link in connection.Links)
                     {
@@ -263,7 +263,7 @@ namespace RemoteTech
             float texBackgroundWidth = (mTimewarpObject.timeQuadrantTab.renderer.material.mainTexture.width * 0.8111f) / scale;
 
 
-            Rect delaytextPosition = new Rect(9.0f / scale, topLeftTotimeQuadrant + texBackgroundHeight - 1, 50.0f / scale, 20.0f / scale);
+            Rect delaytextPosition = new Rect(9.0f / scale, topLeftTotimeQuadrant + texBackgroundHeight - 1, 125.0f / scale, 20.0f / scale);
                         
             // calc the position under the timewarp object
             Rect pos = new Rect(mTimewarpObject.transform.position.x,

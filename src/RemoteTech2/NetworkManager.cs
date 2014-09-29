@@ -47,11 +47,11 @@ namespace RemoteTech
             }
         }
 
-        private Dictionary<ISatellite, NetworkRoute<ISatellite>> mLastConnectionCache = new Dictionary<ISatellite, NetworkRoute<ISatellite>>();
         public NetworkRoute<ISatellite> LastConnection(ISatellite sat) {
-
-            if (sat == null) return null;
-            return mLastConnectionCache.ContainsKey(sat) ? mLastConnectionCache[sat] : null;
+            if (SignalRoutes.Current == null)
+                return null;
+            else
+                return SignalRoutes.Current[sat].FirstOrDefault();
         }
 
 
@@ -115,8 +115,8 @@ namespace RemoteTech
             // If theres a valid path, set it aside for diagnostics
             if (mConnectionCache[start].Count > 0)
             {
-//                Debug.Log(String.Format("Saving a connection from {0} to {1} of {2} links", start.Name, mConnectionCache[start][0].Links, mConnectionCache[start][0].Links.Count));
-                mLastConnectionCache[start] = mConnectionCache[start][0];
+                if(SignalRoutes.Current != null) // FindPath can get invoked before the SignalRoutes data is laoded from persistent.sfs
+                    SignalRoutes.Current[start] = mConnectionCache[start];
             }
 
             start.OnConnectionRefresh(this[start]);

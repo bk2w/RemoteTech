@@ -24,7 +24,7 @@ namespace RemoteTech
             {
                 var satellite = RTCore.Instance.Network[SignalProcessor.Guid];
                 var connection = RTCore.Instance.Network[satellite];
-                return (satellite != null && satellite.HasLocalControl) || (SignalProcessor.Powered && connection.Any());
+                return (satellite != null && satellite.HasLocalControl) || (SignalProcessor.Powered && connection.Any()) || CheatOptions.InfiniteFuel;
             }
         }
 
@@ -32,6 +32,8 @@ namespace RemoteTech
         {
             get
             {
+                if (CheatOptions.InfiniteFuel)
+                    return 0.0;
                 var satellite = RTCore.Instance.Network[SignalProcessor.Guid];
                 if (satellite != null && satellite.HasLocalControl) return 0.0;
                 var connection = RTCore.Instance.Network[satellite];
